@@ -3,6 +3,8 @@ const cors = require('cors');
 const puppeteer = require('puppeteer');
 const nodemailer = require('nodemailer');
 const path = require('path');
+require('dotenv').config();
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -20,14 +22,14 @@ app.post('/survey', async (req, res) => {
     // Generate a PDF from the survey data
     const pdfBuffer = await generatePdf(surveyData);
 
-    // Create a Nodemailer transporter
     let transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
-            user: 'kumarbandaru978@gmail.com',
-            pass: 'ehxhcqmadrmlcgze'
+            user: process.env.GMAIL_USER,
+            pass: process.env.GMAIL_PASS
         }
     });
+    
 
     // Set up email data
     let mailOptions = {
